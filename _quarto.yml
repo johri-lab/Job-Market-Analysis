@@ -6,11 +6,11 @@ execute:
   echo: true
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: "US Job Market Analysis"
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
+    - Mohsin Chougale (mc5491)
+    - Shikhar Johri (sj3327)
+  repo-url: https://github.com/mohsinchougale/Job-Market-Analysis
   date: today
   page-footer:
     right: |

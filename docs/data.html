@@ -141,7 +141,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="header-section-number">2.1</span> Description</a></li>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="header-section-number">2.1</span> Description</a>
+  <ul class="collapse">
+  <li><a href="#job-openings-and-labor-turnover-survey-jolts-dataset" id="toc-job-openings-and-labor-turnover-survey-jolts-dataset" class="nav-link" data-scroll-target="#job-openings-and-labor-turnover-survey-jolts-dataset">Job Openings and Labor Turnover Survey (JOLTS) Dataset</a></li>
+  </ul></li>
   <li><a href="#missing-value-analysis" id="toc-missing-value-analysis" class="nav-link" data-scroll-target="#missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mohsinchougale/Job-Market-Analysis/edit/main/data.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/mohsinchougale/Job-Market-Analysis/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -168,6 +171,23 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="description" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">2.1</span> Description</h2>
+<section id="job-openings-and-labor-turnover-survey-jolts-dataset" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="job-openings-and-labor-turnover-survey-jolts-dataset">Job Openings and Labor Turnover Survey (JOLTS) Dataset</h3>
+<p>The <a href="https://www.bls.gov/jlt/">Job Openings and Labor Turnover Survey (JOLTS)</a> provides national estimates of rates and levels for various labor market dynamics. The survey covers job openings, hires, and total separations, further broken down into quits, layoffs and discharges, and other separations.</p>
+<section id="dataset-files" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="dataset-files"><strong>Dataset Files</strong></h4>
+<p>The survey data is accessible through FTP files available in the BLS internet sub-directory <a href="https://download.bls.gov/pub/time.series/jt/">pub/time.series/jt</a>. These files include information on contacts, current data, all items, job openings, hires, total separations, quits, layoffs and discharges, other separations, and various mapping files providing additional context.</p>
+</section>
+<section id="series-file" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="series-file"><strong>Series File</strong></h4>
+<p>The <a href="https://download.bls.gov/pub/time.series/jt/jt.series">jt.series</a> file serves as a key component, detailing the structure and format of series identification codes. Each code includes information on seasonality, industry, state, area, size class, data element, rate level, and footnote codes. This information allows for precise identification and categorization of data series.</p>
+</section>
+<section id="mapping-files" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="mapping-files"><strong>Mapping Files</strong></h4>
+<p>Various mapping files, such as <a href="https://download.bls.gov/pub/time.series/jt/jt.area">jt.area</a>, <a href="https://download.bls.gov/pub/time.series/jt/jt.dataelement">jt.dataelement</a>, <a href="https://download.bls.gov/pub/time.series/jt/jt.footnote">jt.footnote</a>, <a href="https://download.bls.gov/pub/time.series/jt/jt.industry">jt.industry</a>, <a href="https://download.bls.gov/pub/time.series/jt/jt.period">jt.period</a>, <a href="https://download.bls.gov/pub/time.series/jt/jt.ratelevel">jt.ratelevel</a>, <a href="https://download.bls.gov/pub/time.series/jt/jt.seasonal">jt.seasonal</a>, <a href="https://download.bls.gov/pub/time.series/jt/jt.sizeclass">jt.sizeclass</a>, and <a href="https://download.bls.gov/pub/time.series/jt/jt.state">jt.state</a>, provide textual descriptions for the codes used in the series identification. These mapping files enhance the interpretability of the data.</p>
+<p>The JOLTS dataset is a valuable resource for understanding labor market dynamics, offering detailed and well-organized information that enables researchers, policymakers, and analysts to gain insights into the trends and patterns shaping the employment landscape.</p>
+</section>
+</section>
 </section>
 <section id="missing-value-analysis" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</h2>

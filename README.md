@@ -1,8 +1,16 @@
-### US Job Market Analysis
+## US Job Market Analysis
 
-We analyze the Job Openings and Labor Turnover Survey (JOLTS) due to its relevance in providing insights into job market dynamics, essential for international master’s students like us entering the workforce in the US. We believe this data will help us understand job openings, hires, and separations across industries and regions, crucial for job seekers.
+Looking for jobs? This may be the perfect resource for planning your job-search. 
 
-The visualizations are created using R
+### About the book
+This book focuses on analyzing the Job Openings and Labor Turnover Survey (JOLTS) data, which is a valuable resource for job seekers. As international master’s students preparing to enter the US workforce, we recognize the significance of understanding job market dynamics.
 
-## Contribute
-Found an issue? please [create an issue] for us to know. (https://github.com/mohsinchougale/Job-Market-Analysis/issues)
+### Project Objective
+Our goal is to leverage the JOLTS dataset to gain insights into job openings, hires, and separations across various industries and regions. This analysis aims to provide valuable information crucial for individuals seeking employment opportunities in the US.
+Why JOLTS?
+- Relevance: JOLTS data offers valuable insights into the ever-evolving job market.
+- Insightful Exploration: Understanding job trends across industries and regions is essential for job seekers.
+- Practical Application: We aim to utilize this data to empower job seekers with meaningful information.
+
+### Contribute
+Feel free to [create an issue](https://github.com/mohsinchougale/Job-Market-Analysis/issues) and contribute to the project.

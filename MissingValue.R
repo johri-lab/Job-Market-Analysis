@@ -7,7 +7,8 @@ csv_files <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE)
 for (file in csv_files) {
   data <- read.csv(file)
 
-  csv_file_name <- strsplit(file, "/")[[1]][2]
+  csv_file_name <- strsplit(file, "/")[[1]][3]
+  # print(csv_file_name)
 
   missing_summary <- data %>%
     summarise_all(~ mean(is.na(.)) * 100) %>%

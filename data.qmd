@@ -2,4 +2,24 @@
 
 ## Description
 
+### Job Openings and Labor Turnover Survey (JOLTS) Dataset {-}
+
+The [Job Openings and Labor Turnover Survey (JOLTS)](https://www.bls.gov/jlt/) provides national estimates of rates and levels for various labor market dynamics. The survey covers job openings, hires, and total separations, further broken down into quits, layoffs and discharges, and other separations.
+
+#### **Dataset Files** {-}
+
+The survey data is accessible through FTP files available in the BLS internet sub-directory [pub/time.series/jt](https://download.bls.gov/pub/time.series/jt/). These files include information on contacts, current data, all items, job openings, hires, total separations, quits, layoffs and discharges, other separations, and various mapping files providing additional context.
+
+#### **Series File** {-}
+
+The [jt.series](https://download.bls.gov/pub/time.series/jt/jt.series) file serves as a key component, detailing the structure and format of series identification codes. Each code includes information on seasonality, industry, state, area, size class, data element, rate level, and footnote codes. This information allows for precise identification and categorization of data series.
+
+#### **Mapping Files** {-}
+
+Various mapping files, such as [jt.area](https://download.bls.gov/pub/time.series/jt/jt.area), [jt.dataelement](https://download.bls.gov/pub/time.series/jt/jt.dataelement), [jt.footnote](https://download.bls.gov/pub/time.series/jt/jt.footnote), [jt.industry](https://download.bls.gov/pub/time.series/jt/jt.industry), [jt.period](https://download.bls.gov/pub/time.series/jt/jt.period), [jt.ratelevel](https://download.bls.gov/pub/time.series/jt/jt.ratelevel), [jt.seasonal](https://download.bls.gov/pub/time.series/jt/jt.seasonal), [jt.sizeclass](https://download.bls.gov/pub/time.series/jt/jt.sizeclass), and [jt.state](https://download.bls.gov/pub/time.series/jt/jt.state), provide textual descriptions for the codes used in the series identification. These mapping files enhance the interpretability of the data.
+
+
+
+The JOLTS dataset is a valuable resource for understanding labor market dynamics, offering detailed and well-organized information that enables researchers, policymakers, and analysts to gain insights into the trends and patterns shaping the employment landscape.
+
 ## Missing value analysis

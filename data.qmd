@@ -52,7 +52,7 @@ Particularly in the mapping files of industry dataset we observe display_level, 
 ```{r}
 library(tidyverse)
 
-folder_path <- "C:\\Users\\A-Team\\Documents\\MSDS\\EDAV\\Assignments\\final project\\final data"
+folder_path <- "./data"
 
 csv_files <- list.files(folder_path, pattern = "\\.csv$", full.names = TRUE)
 

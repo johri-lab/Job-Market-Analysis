@@ -2,17 +2,17 @@
 
 We analyze the Job Openings and Labor Turnover Survey (JOLTS) due to its relevance in providing insights into job market dynamics, essential for international master's students like us entering the workforce in the US. We believe this data will help us understand job openings, hires, and separations across industries and regions, crucial for job seekers.
 
-## Areas of Interest for Study
+#### **Areas of Interest for Study** {-}
 
-1. JOLTS data helps us comprehend which sectors offer more job opportunities and how turnover rates fluctuate over time.
+- JOLTS data helps us comprehend which sectors offer more job opportunities and how turnover rates fluctuate over time.
 
-2. The dataset contains report from December 2000 to the present, allowing us to analyze job market trends across various economic cycles. This knowledge assists us in making informed decisions during our job search, enabling us to focus on industries with higher job openings or better stability.
+- The dataset contains report from December 2000 to the present, allowing us to analyze job market trends across various economic cycles. This knowledge assists us in making informed decisions during our job search, enabling us to focus on industries with higher job openings or better stability.
 
-3. The breakdown of data by industries based on the American industry classification is particularly valuable. It guides us in identifying sectors experiencing growth or decline in job openings, aiding us in strategic career planning.
+- The breakdown of data by industries based on the American industry classification is particularly valuable. It guides us in identifying sectors experiencing growth or decline in job openings, aiding us in strategic career planning.
 
-4. The data provides us with opportunities to explore labor market policies and conduct research in labor economics. It equips us with a deeper understanding of the impact of policies on job openings and turnover rates.
+- The data provides us with opportunities to explore labor market policies and conduct research in labor economics. It equips us with a deeper understanding of the impact of policies on job openings and turnover rates.
 
-## How will it help in job applications?
+#### **How will it help in job applications?** {-}
 
 Studying this dataset helps us stand out in job hunting. Understanding this data lets us customize how we search for jobs and decide which career paths to pursue. It's like a guide showing us which industries are doing well and where there are more job opportunities.
 

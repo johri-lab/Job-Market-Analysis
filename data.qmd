@@ -93,3 +93,53 @@ print(missing_value_graph)
 
 ```
 
+
+## Data Summary
+
+```{r}
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(tidyverse)
+  library(gridExtra)
+})
+
+# Specify the folder path
+folder_path <- "./data/"
+
+# Read CSV files with full path
+hires <- read.csv(paste0(folder_path, "Hires.csv"))
+layoffs_discharges <- read.csv(paste0(folder_path, "LayoffsDischarges.csv"))
+industry <- read.csv(paste0(folder_path, "industry.csv"))
+unemployed_per_job_opening_ratio <- read.csv(paste0(folder_path, "UnemployedPerJobOpeningRatio.csv"))
+total_separations <- read.csv(paste0(folder_path, "TotalSeperations.csv"))
+quits <- read.csv(paste0(folder_path, "Quits.csv"))
+job_openings <- read.csv(paste0(folder_path, "JobOpenings.csv"))
+series <- read.csv(paste0(folder_path, "series.csv"))
+
+create_histogram <- function(data, title, x_label, y_label) {
+  suppressWarnings({
+    ggplot(data, aes(x = year, y = value)) +
+    geom_histogram(stat = "identity", bins = 30, breaks = seq(min(data$year), max(data$year) + 1, by = 1)) +
+    labs(title = title, x = x_label, y = y_label)})
+  
+}
+
+# Create individual histograms
+histogram_hires <- create_histogram(hires, "Hires", "Year", "Value")
+histogram_layoffs_discharges <- create_histogram(layoffs_discharges, "Layoffs and Discharges", "Year", "Value")
+histogram_unemployed_per_job_opening_ratio <- create_histogram(unemployed_per_job_opening_ratio, "Unemployed Per Job Opening Ratio", "Year", "Value")
+histogram_total_separations <- create_histogram(total_separations, "Total Separations", "Year", "Value")
+histogram_quits <- create_histogram(quits, "Quits", "Year", "Value")
+histogram_job_openings <- create_histogram(job_openings, "Job Openings", "Year", "Value")
+
+# Arrange histograms in a grid
+grid.arrange(
+  histogram_hires,
+  histogram_layoffs_discharges,
+  histogram_unemployed_per_job_opening_ratio,
+  histogram_total_separations,
+  histogram_quits,
+  histogram_job_openings,
+  ncol = 2  # Adjust the number of columns as per your preference
+)
+```

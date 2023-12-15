@@ -1,1 +1,72 @@
 # Conclusion
+
+Based on the data and the graphs that we plotted, we can conclude the following things
+
+## Industry Trends
+
+#### **1. Construction:** {-} 
+
+Hires and job openings in the construction industry generally increased over the years, with fluctuations. There was a noticeable dip around the 2008 economic downturn, but both hires and job openings have been on the rise since then.
+
+#### **2. Education and Health Services:** {-}  
+
+This industry consistently shows growth in both hires and job openings over the years. The numbers have been steadily increasing, indicating a positive trend.
+
+#### **3. Federal: ** {-} 
+
+The federal sector has relatively stable numbers for both hires and job openings, with some fluctuations. There's no clear upward or downward trend over the years.
+
+#### **4. Financial Activities: ** {-} 
+
+Hires and job openings in financial activities have shown some volatility, with a significant increase in 2021. The data suggests a recovery after a dip in 2008-2009.
+
+#### **5. Information: ** {-} 
+
+The information industry has experienced fluctuations, with a notable increase in hires and job openings in 2021. There seems to be some cyclicality in the data.
+
+#### **6. Leisure and Hospitality:  ** {-} 
+
+This sector experienced a significant drop in hires and job openings in 2020, likely due to the impact of the COVID-19 pandemic. There's a gradual recovery in 2021 and 2022.
+
+#### **7. Manufacturing: ** {-} 
+
+Manufacturing shows an overall positive trend in both hires and job openings, with some fluctuations. There's a noticeable increase in 2021 and 2022.
+
+#### **8. Mining and Logging:  ** {-} 
+
+Hires and job openings in mining and logging have been relatively stable, with some variations. There's no clear trend over the years.
+
+#### **9. Professional and Business Services:   ** {-} 
+
+Both hires and job openings in professional and business services have been consistently increasing over the years, with a peak in 2021.
+
+#### **10. State and Local:   ** {-} 
+
+This sector has shown steady growth in hires and job openings, with some fluctuations. There's an increasing trend, especially in recent years.
+
+
+#### **11. Other Services:   ** {-} 
+
+This sector has seen fluctuations, with a peak in hires and job openings in 2021. The data suggests some degree of volatility.
+
+
+## Yearly Variations
+
+The year 2021 seems to be a year of notable increases in hires and job openings for several industries, potentially indicating recovery or growth after the challenges of the previous years, including the impact of the COVID-19 pandemic.
+
+## Sector-Specific Observations
+
+Certain sectors, like education and health services, professional and business services, and state and local government, show consistent growth, possibly reflecting the overall expansion of these sectors.
+
+## Economic Downturn Impact
+
+The impact of the economic downturn in 2008 is visible in some industries, with a decline in hires and job openings during that period. However, most sectors seem to have recovered in the following years.
+
+
+## COVID-19 Impact
+
+The leisure and hospitality sector appears to have been significantly affected by the COVID-19 pandemic in 2020, with a sharp decline in hires and job openings, followed by a gradual recovery in the subsequent years.
+
+## Overall Outlook
+
+The data suggests a mix of industry-specific trends and responses to external economic factors. The trends observed could be influenced by factors such as economic cycles, policy changes, and external events like the COVID-19 pandemic.

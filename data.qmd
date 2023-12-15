@@ -32,14 +32,10 @@ The JOLTS dataset is a valuable resource for understanding labor market dynamics
 
 4. **Addressing Research Questions**: We merge our dataset files to uncover significant trends and relationships among various job analysis metrics. We plan to observe the following:
    - **Industry Insights**: Identify high-demand industries aligning with skills.
-   - **Regional Variations**: Map job trends across regions for better prospects.
    - **Job Market Trends**: Analyze sectoral shifts over time for informed career choices.
    - **Turnover Rates**: Assess job stability and growth potential in different sectors.
-   - **Seasonal Trends**: Study seasonal impacts on job openings and separations.
 
-5. **Statistical Insight**: Use models for predictive analysis or understanding influencing factors.
-
-6. **Interactive component**: Using D3, we provide engaging graphs to gain clear understanding on the dataset 
+5. **Interactive component**: Using D3, we provide engaging graphs to gain clear understanding on the dataset 
 
 6. **Reporting**: Summarize the findings, highlight insights, and present recommendations for career planning and job search strategies.
 

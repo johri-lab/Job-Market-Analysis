@@ -77,7 +77,7 @@ jolts <- jolts %>%
 ```
 
 
-1. Overall Market state
+## Overall Market state
 
 ```{r, fig.width = 9, fig.height = 8}
 
@@ -105,7 +105,7 @@ For the year 2023, we can see that the industries with the Job Openings are "Edu
 Another observation that we can make is that, there aren't many opportunities in the Construction industry. This could probably attributed to the advent of high tech machinery, which has really made the construction business more effecient and streamlined. Though the side effect of that is a reduced number of overall Job Openings. Such similar observations can be made about the other industries as well.
 
 
-2. The trend of Job openings and Hiring over the years for each industry
+## Job openings and Hiring trends
 ```{r, fig.width = 13, fig.height = 25}
 a <- jolts %>%
   filter(period != "M13", seasonal == "S", ratelevel_code == "R") %>%
@@ -132,7 +132,7 @@ plotly1
 
 This graph shows the trends between Job Openings and Hires. We can see that the graphs of "Federal Industry", "Leisure & Hospitality Industry" and the "Mining and Logging Industry". And the general trend across all industries has been increasing in both, Job Openings and Hires, with the exception of the COVID period, where we notice a sharp fall in the values. As discussed above, the Job Openings for Construction Industry have fallen below the Hires, thus indicating a possible decline in the number of future prosects in this industry.
 
-3. Job openings and hiring trend
+## Job Openings v/s Hires trend
 ```{r, fig.width = 10, fig.height = 15}
 
 a <- jolts %>%
@@ -155,7 +155,7 @@ plotly2
 ```
 In 2019, most jobs had fewer openings due to the pandemic, but the construction industry was hiring more people. Additionally, the information industry saw a slight increase in job openings during that time. Then, in 2023, many different types of jobs had more openings.
 
-4. The reasons for separation from the job
+## Layoffs and Discharges v/s Quits trend
 ```{r, fig.width = 10, fig.height = 15}
 a <- jolts %>%
   filter(period != "M13", seasonal == "S", ratelevel_code == "R") %>%

@@ -1,106 +1,172 @@
-// add your JavaScript/D3 to this file
-// Load CSV files
-const rowConverter = function (d) {
+// Function to convert row data
+function rowConverter(row) {
   return {
-    industry_text: d.industry_text,
-    year: +d.year, // Convert year to a number
-    hires: +d.Hires,
+    industry_text: row.industry_text,
+    year: +row.year,
+    Hires: +row.Hires,
+    JobOpenings: +row["Job openings"]
   };
-};
+}
 
-// Global variable to store the selected industry
-let selectedIndustry = null;
+// Function to populate dropdown options
+function populateDropdownOptions(data) {
+  const industryDropdown = d3.select("#industryDropdown");
 
-// Function to update the bar chart based on the selected industry
+  // Get unique industry values
+  const uniqueIndustries = Array.from(new Set(data.map(d => d.industry_text)));
+
+  // Populate dropdown with options
+  industryDropdown
+    .selectAll("option")
+    .data(uniqueIndustries)
+    .enter()
+    .append("option")
+    .text(d => d)
+    .attr("value", d => d);
+}
+
+// Function to update the chart
 function updateChart(data) {
-  const filteredData = data.filter(d => selectedIndustry === null || d.industry_text === selectedIndustry);
+  // Check if data is loaded
+  if (!data || data.length === 0) {
+    console.warn("No data available.");
+    return;
+  }
 
-  const svg = d3.select("#plot");
+  // Select dropdown and buttons
+  const industryDropdown = d3.select("#industryDropdown");
+  const hiresButton = d3.select("#hiresButton");
+  const openingsButton = d3.select("#openingsButton");
 
-  // Remove existing chart
-  svg.selectAll("*").remove();
+  // Initial selections
+  let selectedIndustry = industryDropdown.property("value");
+  let selectedDataType = hiresButton.classed("selected") ? "Hires" : "JobOpenings";
 
-  // D3.js code for creating a bar chart with axes
-  const margin = { top: 30, right: 30, bottom: 50, left: 60 };
-  const width = 800 - margin.left - margin.right;
-  const height = 500 - margin.top - margin.bottom;
+  // Filter data based on initial selections
+  const filteredData = data.filter(
+    d => d.industry_text === selectedIndustry && d[selectedDataType]
+  );
 
-  const newSvg = svg.append("svg")
+  // Set up SVG container and scales
+  const margin = { top: 20, right: 100, bottom: 60, left: 80 }; // Increased right margin
+  const width = 800 - margin.left - margin.right; // Increased width
+  const height = 500 - margin.top - margin.bottom; // Increased height
+
+  const svg = d3
+    .select("#plot")
+    .html("") // Clear existing content
+    .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  const xScale = d3.scaleBand()
-    .domain(filteredData.map(d => d.year.toString()))
-    .range([0, width])
-    .padding(0.1);
+  const xScale = d3
+    .scaleLinear()
+    .domain(d3.extent(filteredData, d => d.year))
+    .range([0, width]);
 
-  const yScale = d3.scaleLinear()
-    .domain([0, d3.max(filteredData, d => d.hires)])
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(filteredData, d => d[selectedDataType])])
     .range([height, 0]);
 
-  // Add X axis
-  newSvg.append("g")
+  // Draw X-axis with all years
+  svg
+    .append("g")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xScale))
+    .call(
+      d3
+        .axisBottom(xScale)
+        .tickFormat(d3.format("d"))
+        .ticks(filteredData.length) // Display all years
+    )
+    .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("transform", "rotate(-45)");
+
+  // Draw Y-axis with a buffer on the left
+  svg
+    .append("g")
+    .call(d3.axisLeft(yScale).ticks(11));
+
+  // Label for X-axis
+  svg
     .append("text")
-    .attr("x", width / 2)
-    .attr("y", margin.bottom - 10)
-    .attr("dy", "0.71em")
-    .attr("fill", "#000")
+    .attr("transform", "translate(" + width / 2 + " ," + (height + margin.top + 40) + ")")
+    .style("text-anchor", "middle")
     .text("Year");
 
-  // Add Y axis
-  newSvg.append("g")
-    .call(d3.axisLeft(yScale))
+  // Label for Y-axis
+  svg
     .append("text")
     .attr("transform", "rotate(-90)")
-    .attr("y", -margin.left + 15)
-    .attr("x", -height / 2)
-    .attr("dy", "0.71em")
-    .attr("fill", "#000")
-    .text("Hires");
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - height / 2)
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text(selectedDataType);
 
-  // Draw bars for each year
-  newSvg.selectAll(".bar")
+  // Draw line and dots
+  const line = d3
+    .line()
+    .x(d => xScale(d.year))
+    .y(d => yScale(d[selectedDataType]));
+
+  svg
+    .append("path")
+    .data([filteredData])
+    .attr("fill", "none")
+    .attr("stroke", "steelblue")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  svg
+    .selectAll("dot")
     .data(filteredData)
-    .enter().append("rect")
-    .attr("class", "bar")
-    .attr("x", d => xScale(d.year.toString()))
-    .attr("width", xScale.bandwidth())
-    .attr("y", d => yScale(d.hires))
-    .attr("height", d => height - yScale(d.hires))
-    .attr("fill", "steelblue");
-}
+    .enter()
+    .append("circle")
+    .attr("r", 5)
+    .attr("cx", d => xScale(d.year))
+    .attr("cy", d => yScale(d[selectedDataType]));
 
-// Function to handle dropdown changes
-function dropdownChange() {
-  selectedIndustry = document.getElementById("industryDropdown").value;
-
-  // Call the updateChart function with the filtered data
-  updateChart(window.data);
-}
-
-// Function to populate dropdown options
-function populateDropdownOptions(data) {
-  const industries = [...new Set(data.map(d => d.industry_text))];
-
-  const industryDropdown = document.getElementById("industryDropdown");
-
-  industries.forEach(industry => {
-    const option = document.createElement("option");
-    option.value = industry;
-    option.text = industry;
-    industryDropdown.add(option);
+  // Dropdown change event listener
+  industryDropdown.on("change", function () {
+    selectedIndustry = industryDropdown.property("value");
+    updateChart(data);
   });
 
-  // Add event listener to the dropdown
-  industryDropdown.addEventListener("change", dropdownChange);
+  // Button click event listeners
+  hiresButton.on("click", function () {
+    selectedDataType = "Hires";
+    updateChart(data);
+    updateButtonStyle(this);
+  });
+
+  openingsButton.on("click", function () {
+    selectedDataType = "JobOpenings"; // Ensure correct data type
+    updateChart(data);
+    updateButtonStyle(this);
+  });
+
+  // Initial button styles
+  updateButtonStyle(selectedDataType === "Hires" ? hiresButton.node() : openingsButton.node());
 }
 
+// Function to update button styles
+function updateButtonStyle(selectedButton) {
+  // Remove 'selected' class from all buttons
+  d3.selectAll("button").classed("selected", false);
+
+  // Add 'selected' class to the clicked button
+  d3.select(selectedButton).classed("selected", true);
+}
+
+// Load data and initialize the chart
 d3.csv("https://raw.githubusercontent.com/mohsinchougale/Job-Market-Analysis/main/hires_openings_jolts.csv", rowConverter)
-  .then(function(data) {
+  .then(function (data) {
     // Log loaded data to the console
     console.log(data);
 
@@ -113,7 +179,7 @@ d3.csv("https://raw.githubusercontent.com/mohsinchougale/Job-Market-Analysis/mai
     // Initial chart render
     updateChart(data);
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // Handle errors
     console.error(error);
   });

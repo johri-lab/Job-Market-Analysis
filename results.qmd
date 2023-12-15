@@ -1,1 +1,146 @@
 # Results
+
+```{r}
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(tidyverse)
+  library(gridExtra)
+})
+
+# Specify the folder path
+folder_path <- "./data/"
+
+# Read CSV files with full path
+hires <- read.csv(paste0(folder_path, "Hires.csv"))
+layoffs_discharges <- read.csv(paste0(folder_path, "LayoffsDischarges.csv"))
+industry <- read.csv(paste0(folder_path, "industry.csv"))
+unemployed_per_job_opening_ratio <- read.csv(paste0(folder_path, "UnemployedPerJobOpeningRatio.csv"))
+total_separations <- read.csv(paste0(folder_path, "TotalSeperations.csv"))
+quits <- read.csv(paste0(folder_path, "Quits.csv"))
+job_openings <- read.csv(paste0(folder_path, "JobOpenings.csv"))
+series <- read.csv(paste0(folder_path, "series.csv"))
+```
+
+
+1. Scatter Plot - Job Openings vs. Hires
+
+```{r}
+
+ggplot(job_openings, aes(x = value, y = hires$value)) +
+  geom_point() +
+  labs(title = "Job Openings vs. Hires", x = "Job Openings", y = "Hires")
+
+```
+
+2. Bar Chart - Industry Insights
+```{r}
+industry_insights <- industry %>%
+  group_by(industry_text) %>%
+  summarize(AverageJobOpenings = mean(job_openings$value),
+            AverageHires = mean(hires$value))
+
+ggplot(industry_insights, aes(x = industry_text, y = AverageJobOpenings)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Job Openings by Industry", x = "Industry", y = "Average Job Openings")
+
+```
+
+3. Pie Chart - Regional Variations
+```{r}
+
+regional_variations <- series %>%
+  group_by(state_code) %>%
+  summarize(TotalJobOpenings = sum(job_openings$value))
+
+ggplot(regional_variations, aes(x = "", y = TotalJobOpenings, fill = state_code)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y") +
+  labs(title = "Total Job Openings by Region", fill = "Region", x = NULL, y = NULL)
+
+```
+
+4. Line Chart - Turnover Rates Over Time
+```{r}
+turnover_rates <- total_separations %>%
+  mutate(TurnoverRate = value / hires$value)
+
+ggplot(turnover_rates, aes(x = year, y = TurnoverRate, group = 1)) +
+  geom_line() +
+  labs(title = "Turnover Rates Over Time", x = "Year", y = "Turnover Rate")
+
+```
+
+5. Boxplot - Distribution of Job Openings by Industry
+```{r}
+# Extract industry_code from series_id
+job_openings$industry_code <- substr(job_openings$series_id, 4, 9)
+
+# Map industry_text based on industry_code
+job_openings <- merge(job_openings, industry[, c("industry_code", "industry_text")], by = "industry_code", all.x = TRUE)
+
+# 5. Boxplot - Distribution of Job Openings by Industry
+ggplot(job_openings, aes(x = "", y = value, fill = industry_text)) +
+  geom_boxplot() +
+  labs(title = "Distribution of Job Openings by Industry", x = "", y = "Job Openings")
+
+```
+
+
+6. Heatmap - Correlation Matrix
+```{r}
+cor_matrix <- cor(cbind(job_openings$value, hires$value, total_separations$value))
+
+ggplot(data = as.data.frame(as.table(cor_matrix)), aes(x = Var1, y = Var2, fill = Freq)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "blue") +
+  labs(title = "Correlation Matrix", x = "", y = "")
+
+```
+
+7. Area Chart - Seasonal Trends
+```{r}
+seasonal_trends <- job_openings %>%
+  group_by(period) %>%
+  summarize(AverageJobOpenings = mean(value),
+            AverageSeparations = mean(total_separations$value))
+
+ggplot(seasonal_trends, aes(x = period, y = AverageJobOpenings, fill = "Job Openings")) +
+  geom_area() +
+  geom_line(aes(y = AverageSeparations, fill = "Total Separations"), color = "red") +
+  labs(title = "Seasonal Trends", x = "Period", y = "Average Count", fill = "")
+
+```
+
+8. Histogram - Distribution of Hires
+```{r}
+ggplot(hires, aes(x = value)) +
+  geom_histogram(binwidth = 50, fill = "blue", color = "black") +
+  labs(title = "Distribution of Hires", x = "Hires", y = "Frequency")
+
+```
+
+9. Violin Plot - Distribution of Total Separations by Industry
+```{r}
+
+# Extract industry_code from series_id
+total_separations$industry_code <- substr(total_separations$series_id, 4, 9)
+
+# Map industry_text based on industry_code
+total_separations <- merge(total_separations, industry[, c("industry_code", "industry_text")], by = "industry_code", all.x = TRUE)
+
+
+ggplot(total_separations, aes(x = year, y = value, group = industry_text, color = industry_text)) +
+  geom_line() +
+  labs(title = "Total Separations Over Time by Industry", x = "Date", y = "Total Separations") +
+  theme(legend.position = "bottom")  # Adjust legend position as needed
+
+```
+
+10. Bubble Chart - Job Openings vs. Hires vs. Total Separations
+```{r}
+ggplot(job_openings, aes(x = value, y = hires$value, size = total_separations$value)) +
+  geom_point(alpha = 0.7) +
+  scale_size_continuous(range = c(5, 20)) +
+  labs(title = "Job Openings vs. Hires vs. Total Separations", x = "Job Openings", y = "Hires")
+
+```

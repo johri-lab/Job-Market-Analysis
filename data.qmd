@@ -156,3 +156,10 @@ grid.arrange(
   ncol = 2  # Adjust the number of columns as per your preference
 )
 ```
+
+
+From these graphs we see an dip in values around 2008, in Hires, Total Separations, Quits and Job Openings. And since then a gradual increase in value from 2008. The economic downturn in 2008 might expain the dip in numbers.
+
+Another fascinating observation is the sudden spike in Layoffs and Discharges during the year 2019-2020. This can be attributed to the COVID-19 pandemic, when a lot of people lost their jobs.
+
+A positive trend that one can observe is in the Unemployed Per Job Opening Ratio, which decreases from 2008, with the exception of the sudden spike in 2020, again due to COVID.

@@ -100,6 +100,11 @@ plotly1
 
 ```
 
+For the year 2023, we can see that the industries with the Job Openings are "Education and Health", "Leisure and Hospitality" and Business Services". This could be correlated to the fact that COVID had drastically affected the Tourism Industry, as well as the business owners, regardless of whether it was a multinational corporation or a small business. Thus now that the effects of COVID have cleared, it makes sense that Job Openings in these fields are high, in comparison with the other sectors.
+
+Another observation that we can make is that, there aren't many opportunities in the Construction industry. This could probably attributed to the advent of high tech machinery, which has really made the construction business more effecient and streamlined. Though the side effect of that is a reduced number of overall Job Openings. Such similar observations can be made about the other industries as well.
+
+
 2. The trend of Job openings and Hiring over the years for each industry
 ```{r, fig.width = 13, fig.height = 25}
 a <- jolts %>%
@@ -116,7 +121,7 @@ plot2 <- ggplot(a, aes(x = year)) +
   geom_line(aes(y = Hires, color = "Hires")) +
   geom_point(aes(y = Hires, color = "Hires")) +
   facet_wrap(~ industry_text, ncol=2) +
-  labs(title = "Mean Job Openings and Hires per Year", x = "Year", y = "Mean Value", color = "Metric") +
+  labs(title = "Mean Job Openings and Hires per Year", x = "Year", y = "Mean Value (Rates)", color = "Metric") +
   theme(strip.text.y = element_text(margin = margin(10, 0, 10, 0)))
 
 plotly1 <- ggplotly(plot2)
@@ -125,6 +130,8 @@ plotly1
 
 ```
 
+This graph shows the trends between Job Openings and Hires. We can see that the graphs of "Federal Industry", "Leisure & Hospitality Industry" and the "Mining and Logging Industry". And the general trend across all industries has been increasing in both, Job Openings and Hires, with the exception of the COVID period, where we notice a sharp fall in the values. As discussed above, the Job Openings for Construction Industry have fallen below the Hires, thus indicating a possible decline in the number of future prosects in this industry.
+
 3. Job openings and hiring trend
 ```{r, fig.width = 10, fig.height = 15}
 
@@ -132,7 +139,7 @@ a <- jolts %>%
   filter(period != "M13", seasonal == "S", ratelevel_code == "R") %>%
   filter(display_level.industry_code == 2) %>%
   filter(dataelement_text == "Hires" | dataelement_text == "Job openings") %>%
-  filter(year> 2021) %>%
+  filter(year %in% c(2019, 2023)) %>%
   pivot_wider(id_cols = c("date","industry_text"), names_from = dataelement_text, values_from = value) %>%
   mutate(year = factor(year(date)))
 
@@ -140,20 +147,21 @@ plot2 <- ggplot(a, aes(Hires, `Job openings`, color = year)) +
   geom_point() +
   theme_classic() +
   facet_wrap(~ industry_text, ncol=2) +
-  labs(title = "Job Openings vs Hires", x = "Hires", y = "Job Openings")
+  labs(title = "Job Openings vs Hires", x = "Hires (Rates)", y = "Job Openings (Rates)")
 
 plotly2 <- ggplotly(plot2)
 plotly2
 
 ```
+In 2019, most jobs had fewer openings due to the pandemic, but the construction industry was hiring more people. Additionally, the information industry saw a slight increase in job openings during that time. Then, in 2023, many different types of jobs had more openings.
 
-4. The reasons for leaving the job
+4. The reasons for separation from the job
 ```{r, fig.width = 10, fig.height = 15}
 a <- jolts %>%
   filter(period != "M13", seasonal == "S", ratelevel_code == "R") %>%
   filter(display_level.industry_code == 2) %>%
   filter(dataelement_text == "Quits" | dataelement_text == "Layoffs and discharges") %>%
-  filter(year >2021) %>%
+  filter(year %in% c(2019, 2023)) %>%
   pivot_wider(id_cols = c("date","industry_text"), names_from = dataelement_text, values_from = value) %>%
   mutate(year = factor(year(date)))
 
@@ -161,9 +169,8 @@ plot2 <- ggplot(a, aes(Quits, `Layoffs and discharges`, color = year)) +
   geom_point() +
   theme_classic() +
   facet_wrap(~ industry_text, ncol=2) +
-  labs(title = "Layoffs and discharges vs Quits", x = "Quits", y = "Layoffs and discharges")
+  labs(title = "Layoffs and discharges vs Quits", x = "Quits (Rates)", y = "Layoffs and discharges (Rates)")
 
 plotly2 <- ggplotly(plot2)
 plotly2
-
 ```

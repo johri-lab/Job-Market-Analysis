@@ -1,14 +1,41 @@
-# Interactive Graph
+# Interactive graph
 
 <style>
   * {
     font-family: sans-serif;
   }
+
+  label {
+    margin-right: 10px;
+  }
+
+  button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+  }
+
+  button.selected {
+    background-color: #ddd;
+  }
 </style>
+
+## Job Market Analysis
+
+Exploring trends in job hires and job openings across different industries over the years. Use the interactive graph below to visualize and compare the data. Select an industry from the dropdown menu, and toggle between "Hires" and "Job Openings" to analyze the corresponding values. The graph updates dynamically, providing insights into the job market dynamics.
+
 
 <div>
   <label for="industryDropdown">Select Industry:</label>
   <select id="industryDropdown"></select>
+</div>
+
+<div>
+  <label>Data Type:</label>
+  <button id="hiresButton">Job Openings</button>
+  <button id="openingsButton">Hires</button>
 </div>
 
 <div id="plot"></div>

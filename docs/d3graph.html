@@ -137,7 +137,13 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#job-market-analysis" id="toc-job-market-analysis" class="nav-link active" data-scroll-target="#job-market-analysis"><span class="header-section-number">4.1</span> Job Market Analysis</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mohsinchougale/Job-Market-Analysis/edit/main/d3graph.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/mohsinchougale/Job-Market-Analysis/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -163,7 +169,32 @@ ul.task-list li input[type="checkbox"] {
   * {
     font-family: sans-serif;
   }
+
+  label {
+    margin-right: 10px;
+  }
+
+  button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+  }
+
+  button.selected {
+    background-color: #ddd;
+  }
 </style>
+<section id="job-market-analysis" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="job-market-analysis"><span class="header-section-number">4.1</span> Job Market Analysis</h2>
+<p>Exploring trends in job hires and job openings across different industries over the years. Use the interactive graph below to visualize and compare the data. Select an industry from the dropdown menu, and toggle between “Hires” and “Job Openings” to analyze the corresponding values. The graph updates dynamically, providing insights into the job market dynamics.</p>
+<div>
+<p><label for="industryDropdown">Select Industry:</label> <select id="industryDropdown"></select></p>
+</div>
+<div>
+<p><label>Data Type:</label> <button id="hiresButton">Job Openings</button> <button id="openingsButton">Hires</button></p>
+</div>
 <div id="plot">
 
 </div>
@@ -171,6 +202,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="scripts/myscript.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -426,7 +458,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mohsinchougale/Job-Market-Analysis/edit/main/d3graph.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/mohsinchougale/Job-Market-Analysis/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    </div>
     <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>

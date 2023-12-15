@@ -93,6 +93,19 @@ print(missing_value_graph)
 
 ```
 
+## Missing Data Pattern
+
+We observe that series.csv data only has one column which is missing for all the samples, on the other hand industry.csv has 3 columns which may have some pattern between the missing values. To further analyse this we use the redav package to identify the pattern in these missing values.
+
+```{r , fig.width = 8, fig.height = 7}
+suppressWarnings({
+  library(redav)
+
+industry_df <- read.csv('./data/industry.csv') 
+plot_missing(industry_df)
+})
+```
+
 
 ## Data Summary
 

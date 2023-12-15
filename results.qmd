@@ -1,16 +1,20 @@
 # Results
 
 ```{r}
-suppressPackageStartupMessages({
+suppressPackageStartupMessages(
+suppressWarnings({
   library(ggplot2)
   library(tidyverse)
   library(gridExtra)
-})
+  library(dplyr)
+  library(plotly)
+  library(janitor)
+}))
 
-# Specify the folder path
 folder_path <- "./data/"
+folder_path_other <- './data_other/'
 
-# Read CSV files with full path
+
 hires <- read.csv(paste0(folder_path, "Hires.csv"))
 layoffs_discharges <- read.csv(paste0(folder_path, "LayoffsDischarges.csv"))
 industry <- read.csv(paste0(folder_path, "industry.csv"))
@@ -19,128 +23,147 @@ total_separations <- read.csv(paste0(folder_path, "TotalSeperations.csv"))
 quits <- read.csv(paste0(folder_path, "Quits.csv"))
 job_openings <- read.csv(paste0(folder_path, "JobOpenings.csv"))
 series <- read.csv(paste0(folder_path, "series.csv"))
+
+all_item <- read.csv(paste0(folder_path_other, "AllItems.csv"))
+dataelement <- read.csv(paste0(folder_path_other, "dataelement.csv"))
+sizeclass <- read.csv(paste0(folder_path_other, "sizeclass.csv"))
+state <- read.csv(paste0(folder_path_other, "state.csv"))
+
+
+all_item <- all_item %>%
+  mutate(
+    value = as.numeric(value),
+    series_id = str_trim(series_id),
+    date = as.Date(paste(substr(period,2,3),"01",year,sep="/"),"%m/%d/%Y")
+  )
+
+series<-series %>%
+  clean_names %>%
+  mutate_all(str_trim)
+
+dataelement<-dataelement %>%
+  clean_names %>%
+  mutate_all(str_trim)
+
+sizeclass<-sizeclass %>%
+  clean_names %>%
+  mutate_all(str_trim)
+
+industry<-industry %>%
+  clean_names %>%
+  mutate_all(str_trim)
+
+state<-state %>%
+  clean_names %>%
+  mutate_all(str_trim)
+
+jolts <- all_item %>%
+  inner_join(series, by = c("series_id")) %>%
+  inner_join(dataelement, by = c("dataelement_code"),suffix = c(".series", ".data_element")) %>%
+  inner_join(industry, by = c("industry_code"),suffix = c(".x", ".industry_code")) %>%
+  inner_join(sizeclass, by = "sizeclass_code") %>%
+  inner_join(state, by="state_code")
+
+jolts <- jolts %>%
+  mutate(
+    industry_text = case_when(
+      industry_text == "Professional and business services" ~ "Business services",
+      industry_text == "Education and health services" ~ "Education & health",
+      industry_text == "Leisure and hospitality" ~ "Leisure & hospitality",
+      TRUE ~ industry_text
+    )
+  )
+
 ```
 
 
-1. Scatter Plot - Job Openings vs. Hires
+1. Overall Market state
 
-```{r}
+```{r, fig.width = 9, fig.height = 8}
 
-ggplot(job_openings, aes(x = value, y = hires$value)) +
-  geom_point() +
-  labs(title = "Job Openings vs. Hires", x = "Job Openings", y = "Hires")
+jolts_filtered <- jolts %>%
+  filter(period != "M13", seasonal == "S", ratelevel_code == "L") %>%
+  filter(display_level.industry_code == 2) %>%
+  filter(dataelement_text != "Layoffs and discharges", dataelement_text != "Other separations") %>%
+  filter(date == max(date))
 
-```
-
-2. Bar Chart - Industry Insights
-```{r}
-industry_insights <- industry %>%
-  group_by(industry_text) %>%
-  summarize(AverageJobOpenings = mean(job_openings$value),
-            AverageHires = mean(hires$value))
-
-ggplot(industry_insights, aes(x = industry_text, y = AverageJobOpenings)) +
+plot1 <- jolts_filtered %>%
+  ggplot(aes(industry_text, value)) +
   geom_bar(stat = "identity") +
-  labs(title = "Average Job Openings by Industry", x = "Industry", y = "Average Job Openings")
+  coord_flip() +
+  facet_wrap(~ dataelement_text, ncol = 2) +
+  labs(title = "Industry Data (Current 2023 Market)", x = "Industry", y = "Value") +
+  theme(strip.text.y = element_text(margin = margin(10, 0, 10, 0)))
+
+plotly1 <- ggplotly(plot1)
+plotly1
 
 ```
 
-3. Pie Chart - Regional Variations
-```{r}
+2. The trend of Job openings and Hiring over the years for each industry
+```{r, fig.width = 13, fig.height = 25}
+a <- jolts %>%
+  filter(period != "M13", seasonal == "S", ratelevel_code == "R") %>%
+  filter(display_level.industry_code == 2) %>%
+  filter(dataelement_text %in% c("Job openings", "Hires")) %>%
+  group_by(industry_text, dataelement_text, year = lubridate::year(date)) %>%
+  summarise(mean_value = mean(value, na.rm = TRUE)) %>%
+  pivot_wider(names_from = dataelement_text, values_from = mean_value)
 
-regional_variations <- series %>%
-  group_by(state_code) %>%
-  summarize(TotalJobOpenings = sum(job_openings$value))
+plot2 <- ggplot(a, aes(x = year)) +
+  geom_line(aes(y = `Job openings`, color = "Job Openings")) +
+  geom_point(aes(y = `Job openings`, color = "Job Openings")) +
+  geom_line(aes(y = Hires, color = "Hires")) +
+  geom_point(aes(y = Hires, color = "Hires")) +
+  facet_wrap(~ industry_text, ncol=2) +
+  labs(title = "Mean Job Openings and Hires per Year", x = "Year", y = "Mean Value", color = "Metric") +
+  theme(strip.text.y = element_text(margin = margin(10, 0, 10, 0)))
 
-ggplot(regional_variations, aes(x = "", y = TotalJobOpenings, fill = state_code)) +
-  geom_bar(stat = "identity", width = 1) +
-  coord_polar("y") +
-  labs(title = "Total Job Openings by Region", fill = "Region", x = NULL, y = NULL)
+plotly1 <- ggplotly(plot2)
+plotly1
+
 
 ```
 
-4. Line Chart - Turnover Rates Over Time
-```{r}
-turnover_rates <- total_separations %>%
-  mutate(TurnoverRate = value / hires$value)
+3. Job openings and hiring trend
+```{r, fig.width = 10, fig.height = 15}
 
-ggplot(turnover_rates, aes(x = year, y = TurnoverRate, group = 1)) +
-  geom_line() +
-  labs(title = "Turnover Rates Over Time", x = "Year", y = "Turnover Rate")
+a <- jolts %>%
+  filter(period != "M13", seasonal == "S", ratelevel_code == "R") %>%
+  filter(display_level.industry_code == 2) %>%
+  filter(dataelement_text == "Hires" | dataelement_text == "Job openings") %>%
+  filter(year> 2021) %>%
+  pivot_wider(id_cols = c("date","industry_text"), names_from = dataelement_text, values_from = value) %>%
+  mutate(year = factor(year(date)))
 
-```
+plot2 <- ggplot(a, aes(Hires, `Job openings`, color = year)) +
+  geom_point() +
+  theme_classic() +
+  facet_wrap(~ industry_text, ncol=2) +
+  labs(title = "Job Openings vs Hires", x = "Hires", y = "Job Openings")
 
-5. Boxplot - Distribution of Job Openings by Industry
-```{r}
-# Extract industry_code from series_id
-job_openings$industry_code <- substr(job_openings$series_id, 4, 9)
-
-# Map industry_text based on industry_code
-job_openings <- merge(job_openings, industry[, c("industry_code", "industry_text")], by = "industry_code", all.x = TRUE)
-
-# 5. Boxplot - Distribution of Job Openings by Industry
-ggplot(job_openings, aes(x = "", y = value, fill = industry_text)) +
-  geom_boxplot() +
-  labs(title = "Distribution of Job Openings by Industry", x = "", y = "Job Openings")
+plotly2 <- ggplotly(plot2)
+plotly2
 
 ```
 
+4. The reasons for leaving the job
+```{r, fig.width = 10, fig.height = 15}
+a <- jolts %>%
+  filter(period != "M13", seasonal == "S", ratelevel_code == "R") %>%
+  filter(display_level.industry_code == 2) %>%
+  filter(dataelement_text == "Quits" | dataelement_text == "Layoffs and discharges") %>%
+  filter(year >2021) %>%
+  pivot_wider(id_cols = c("date","industry_text"), names_from = dataelement_text, values_from = value) %>%
+  mutate(year = factor(year(date)))
 
-6. Heatmap - Correlation Matrix
-```{r}
-cor_matrix <- cor(cbind(job_openings$value, hires$value, total_separations$value))
+plot2 <- ggplot(a, aes(Quits, `Layoffs and discharges`, color = year)) +
+  geom_point() +
+  theme_classic() +
+  facet_wrap(~ industry_text, ncol=2) +
+  labs(title = "Layoffs and discharges vs Quits", x = "Quits", y = "Layoffs and discharges")
 
-ggplot(data = as.data.frame(as.table(cor_matrix)), aes(x = Var1, y = Var2, fill = Freq)) +
-  geom_tile() +
-  scale_fill_gradient(low = "white", high = "blue") +
-  labs(title = "Correlation Matrix", x = "", y = "")
-
-```
-
-7. Area Chart - Seasonal Trends
-```{r}
-seasonal_trends <- job_openings %>%
-  group_by(period) %>%
-  summarize(AverageJobOpenings = mean(value),
-            AverageSeparations = mean(total_separations$value))
-
-ggplot(seasonal_trends, aes(x = period, y = AverageJobOpenings, fill = "Job Openings")) +
-  geom_area() +
-  geom_line(aes(y = AverageSeparations, fill = "Total Separations"), color = "red") +
-  labs(title = "Seasonal Trends", x = "Period", y = "Average Count", fill = "")
-
-```
-
-8. Histogram - Distribution of Hires
-```{r}
-ggplot(hires, aes(x = value)) +
-  geom_histogram(binwidth = 50, fill = "blue", color = "black") +
-  labs(title = "Distribution of Hires", x = "Hires", y = "Frequency")
-
-```
-
-9. Violin Plot - Distribution of Total Separations by Industry
-```{r}
-
-# Extract industry_code from series_id
-total_separations$industry_code <- substr(total_separations$series_id, 4, 9)
-
-# Map industry_text based on industry_code
-total_separations <- merge(total_separations, industry[, c("industry_code", "industry_text")], by = "industry_code", all.x = TRUE)
-
-
-ggplot(total_separations, aes(x = year, y = value, group = industry_text, color = industry_text)) +
-  geom_line() +
-  labs(title = "Total Separations Over Time by Industry", x = "Date", y = "Total Separations") +
-  theme(legend.position = "bottom")  # Adjust legend position as needed
-
-```
-
-10. Bubble Chart - Job Openings vs. Hires vs. Total Separations
-```{r}
-ggplot(job_openings, aes(x = value, y = hires$value, size = total_separations$value)) +
-  geom_point(alpha = 0.7) +
-  scale_size_continuous(range = c(5, 20)) +
-  labs(title = "Job Openings vs. Hires vs. Total Separations", x = "Job Openings", y = "Hires")
+plotly2 <- ggplotly(plot2)
+plotly2
 
 ```

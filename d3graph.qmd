@@ -1,0 +1,17 @@
+# Interactive Graph
+
+<style>
+  * {
+    font-family: sans-serif;
+  }
+</style>
+
+<div>
+  <label for="industryDropdown">Select Industry:</label>
+  <select id="industryDropdown"></select>
+</div>
+
+<div id="plot"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="scripts/myscript.js"></script>
